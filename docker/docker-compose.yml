@@ -1,0 +1,11 @@
+services:
+  arok:
+    restart: always
+    hostname: arok-container
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: arok_magic
+    ports:
+      - "8080:8000"
+    
