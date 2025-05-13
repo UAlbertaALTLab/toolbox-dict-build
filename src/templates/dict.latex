@@ -1,9 +1,28 @@
-\documentclass{article}
+\documentclass{book}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage[margin=2cm]{geometry}
+\usepackage{multicol}
+\usepackage[document]{ragged2e}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{ifthen}
+\renewcommand{\chaptermark}[1]{}
+\renewcommand{\sectionmark}[1]{}
+\fancyhead[L]{\textbf{\rightmark}}
+\fancyhead[R]{\textbf{\leftmark}}
+\fancyhead[C]{\textbf{\thepage}}
+\fancyfoot{}
+\renewcommand{\headrule}{}
+\renewcommand{\footrule}{}
+\def\changemargin#1#2{\list{}{\rightmargin#2\leftmargin#1}\item[]}
+\let\endchangemargin=\endlist 
 \begin{document}
+\setlength\columnseprule{.4pt}
+\begin{multicols}{3}
 %- for entry in entries
-\textbf{\textsc{\VAR{entry.head|e}}} \textbullet 
+\begin{changemargin}{.5cm}{0cm}
+\markboth{\VAR{entry.head|e}}{\VAR{entry.head|e}}\hspace*{-.5cm}\textbf{\textsc{\VAR{entry.head|e}}} \textbullet\;
 %
 %- for defn, main_entry in entry.main_entries
 \textbf{\VAR{main_entry.latex_stem|e}} \VAR{main_entry.latex_pos|safe},
@@ -23,6 +42,8 @@
 %- endfor
 \end{itemize}
 %- endif
+\end{changemargin}
 \par
 %- endfor
+\end{multicols}
 \end{document}

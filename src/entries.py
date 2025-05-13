@@ -128,7 +128,7 @@ def simplify_defn(remove:str, entry: TBEntry) -> tuple[str, TBEntry]:
     if defn == remove:
         return ("", entry)
     else:
-        defn = defn.replace(remove, "{\\textasciitilde}")
+        defn = defn.replace(remove, "{\\raisebox{-.25em}{\\textasciitilde}}")
         return (defn, entry) #"\\char`\\~"), entry)
 
 ESCAPED_KEY = "itwewina_entries"

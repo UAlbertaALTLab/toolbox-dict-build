@@ -1,11 +1,20 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+    </head>
     <body>
+        <div class="container-md mt-3">
         <h1> Dictionary builder </h1>
+        <p> Note: Organizing and building the PDF can take time. You might need to wait up to a minute with a realistic toolbox file.</p>
         <form action="/" method="POST" enctype="multipart/form-data">
-            <label for="toolbox">Toolbox file:</label>
-            <input type="file" id="toolbox" name="toolbox" accept=".toolbox" />
-            <input type="submit" value="Generate Dictionary">
+            <div class="mb-3">
+            <label for="toolbox" class="form-label">Toolbox file:</label>
+            <input type="file" id="toolbox" name="toolbox" accept=".toolbox" class="form-control"/>
+            </div>
+            <button type="submit" class="btn btn-primary float-end">Generate Dictionary</button>
         </form>
+        </div>
     </body>
 </html>

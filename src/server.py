@@ -38,7 +38,7 @@ class ArokHandler(http.server.BaseHTTPRequestHandler):
                 try:
                     builder = PdfLatexBuilder(pdflatex="pdflatex")
                     latex = dict_file.latex()
-                    #with open ("dict.latex", "w") as f:
+                    #with open ("dict.tex", "w") as f:
                     #    f.write(latex)
                     pdf = builder.build_pdf(latex) 
                     self.send_response(200)
@@ -60,7 +60,7 @@ class ArokHandler(http.server.BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write("You didn't send a toolbox file.".encode("utf-8"))
     
-PORT = 8001
+PORT = 8000
 
 with socketserver.TCPServer(("", PORT), ArokHandler) as httpd:
     print("serving at port ", PORT)
