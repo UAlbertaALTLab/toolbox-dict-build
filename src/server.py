@@ -33,8 +33,16 @@ class ArokHandler(http.server.BaseHTTPRequestHandler):
                 if part:
                     part.close()
             if toolbox:
-                dict_file = make_dictionary(load_toolbox(toolbox))
-                print("Dictionary made. building...")
+                try:
+                    dict_file = make_dictionary(load_toolbox(toolbox))
+                    print("Dictionary made. building...")
+                except ValueError as e:
+                    self.send_response(200)
+                    self.send_header("Content-Type", "text/plain")
+                    self.end_headers()
+                    self.wfile.write("Your toolbox file has some formatting issues.  This is the error we detected:\n\n\n".encode("utf-8"))
+                    self.wfile.write("{}\n\n".format(str(e)).encode("utf-8"))
+                    return
                 try:
                     builder = PdfLatexBuilder(pdflatex="pdflatex")
                     latex = dict_file.latex()
@@ -46,6 +54,7 @@ class ArokHandler(http.server.BaseHTTPRequestHandler):
                     self.send_header("Content-Disposition", "inline; filename=\"dictionary.pdf\"")
                     self.end_headers()
                     self.wfile.write(bytes(pdf))
+                    return
                 except LatexBuildError as e:
                     self.send_response(200)
                     self.send_header("Content-Type", "text/plain")
@@ -53,7 +62,7 @@ class ArokHandler(http.server.BaseHTTPRequestHandler):
                     self.wfile.write("There were issues on the file. Send a copy to altlab of the input files.\n\n\n".encode("utf-8"))
                     for err in e.get_errors():
                         self.wfile.write("{}\n\n".format(err["error"]).encode("utf-8"))
-
+                    return
         else:
             self.send_response(200)
             self.send_header("Content-Type", "text/plain")

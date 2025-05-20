@@ -10,9 +10,9 @@ def build_toolbox_data_structure( iterator : StringIO ) -> list[list[tuple[str, 
         else:
             candidate = line.strip().partition(" ")
             if len(candidate) != 3:
-                raise ValueError(f"Line does not have a mapping: {line}")
+                raise ValueError(f"Line {linenum} does not have a mapping: {line}")
             if not candidate[0].startswith("\\"):
-                raise ValueError(f"Line missing toolbox key: {line}")
+                raise ValueError(f"Line {linenum} missing toolbox key: {line}")
             entry.append((candidate[0], candidate[2]))
         linenum += 1
     # Now add last entry
