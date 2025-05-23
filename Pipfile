@@ -8,6 +8,8 @@ tqdm = "*"
 multipart = "*"
 latex = "*"
 jinja2 = "*"
+nltk = "*"
+natsort = "*"
 
 [dev-packages]
 mypy = "*"

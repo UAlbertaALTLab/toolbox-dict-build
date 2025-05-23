@@ -17,33 +17,37 @@
 \renewcommand{\footrule}{}
 \def\changemargin#1#2{\list{}{\rightmargin#2\leftmargin#1}\item[]}
 \let\endchangemargin=\endlist 
+%
 \begin{document}
 \setlength\columnseprule{.4pt}
 \begin{multicols}{3}
+%
 %- for entry in entries
 \begin{changemargin}{.5cm}{0cm}
 \markboth{\VAR{entry.head|e}}{\VAR{entry.head|e}}\hspace*{-.5cm}\textbf{\textsc{\VAR{entry.head|e}}} \textbullet\;
 %
+%
 %- for defn, main_entry in entry.main_entries
-\textbf{\VAR{main_entry.latex_stem|e}} \VAR{main_entry.latex_pos|safe},
 %- if defn
-`\textit{\VAR{defn|safe}}'
+`\textbf{\VAR{defn|safe}}' 
 %- endif
+{\VAR{main_entry.latex_stem|e}} \VAR{main_entry.latex_pos|safe},
 %- endfor
 \newline
 %- if entry.subheadings
-\begin{itemize}
+\begin{description}
 %- for defn, subheading in entry.subheadings
-\item \VAR{defn | safe} \textbullet 
+\item[\VAR{defn|safe}] \textbullet 
 %- for subentry_defn, subentry in subheading
 \newline
-\textit{\VAR{subentry_defn}} \VAR{subentry.latex_stem|e} \VAR{subentry.latex_pos|safe}
+{\VAR{subentry_defn}} \VAR{subentry.latex_stem|e} \VAR{subentry.latex_pos|safe}
 %- endfor
 %- endfor
-\end{itemize}
+\end{description}
 %- endif
 \end{changemargin}
 \par
 %- endfor
+%
 \end{multicols}
 \end{document}

@@ -38,16 +38,22 @@ class ArokHandler(http.server.BaseHTTPRequestHandler):
                     print("Dictionary made. building...")
                 except ValueError as e:
                     self.send_response(200)
-                    self.send_header("Content-Type", "text/plain")
+                    self.send_header("Content-Type", "text/plain; charset=utf-8")
                     self.end_headers()
                     self.wfile.write("Your toolbox file has some formatting issues.  This is the error we detected:\n\n\n".encode("utf-8"))
-                    self.wfile.write("{}\n\n".format(str(e)).encode("utf-8"))
+                    self.wfile.write("{}\n\n".format(str(e)).encode())
+                    if "debug_info" in dir(e):                        
+                        self.wfile.write("The problem is in the following entry, which likely has more information, but we had to stop parsing it from the issue we just mentioned.\n\n".encode())
+                        self.wfile.write(e.debug_info.encode())
+                        self.wfile.write("\n{}\n{}\n".format(e.last_line,"^"*len(e.last_line)).encode())
+                    self.wfile.write("\n\n".encode())
+                    #self.wfile.write("{}\n\n".format(str(e)).encode("utf-8"))
                     return
                 try:
                     builder = PdfLatexBuilder(pdflatex="pdflatex")
                     latex = dict_file.latex()
-                    #with open ("dict.tex", "w") as f:
-                    #    f.write(latex)
+                    with open ("dict.tex", "w") as f:
+                        f.write(latex)
                     pdf = builder.build_pdf(latex) 
                     self.send_response(200)
                     self.send_header("Content-Type", "application/pdf; charset=utf-8")
@@ -61,7 +67,7 @@ class ArokHandler(http.server.BaseHTTPRequestHandler):
                     self.end_headers()
                     self.wfile.write("There were issues on the file. Send a copy to altlab of the input files.\n\n\n".encode("utf-8"))
                     for err in e.get_errors():
-                        self.wfile.write("{}\n\n".format(err["error"]).encode("utf-8"))
+                        self.wfile.write("{}\n\t{}\n".format(err["error"],err["context"][1]).encode("utf-8"))
                     return
         else:
             self.send_response(200)
@@ -71,6 +77,14 @@ class ArokHandler(http.server.BaseHTTPRequestHandler):
     
 PORT = 8000
 
-with socketserver.TCPServer(("", PORT), ArokHandler) as httpd:
+with socketserver.TCPServer(("", PORT), ArokHandler, bind_and_activate=False) as httpd:
+    httpd.allow_reuse_address = True
     print("serving at port ", PORT)
-    httpd.serve_forever()
+    try:
+        httpd.server_bind()
+        httpd.server_activate()
+        httpd.serve_forever()
+    except:
+        httpd.server_close()
+        print("closed.")
+        raise
