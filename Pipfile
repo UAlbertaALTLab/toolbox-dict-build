@@ -10,6 +10,7 @@ latex = "*"
 jinja2 = "*"
 nltk = "*"
 natsort = "*"
+requests = "*"
 
 [dev-packages]
 mypy = "*"
