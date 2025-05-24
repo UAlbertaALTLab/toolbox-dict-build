@@ -1,7 +1,7 @@
 from nltk.parse.corenlp import CoreNLPServer, CoreNLPParser
 import os
 
-os.environ["CLASSPATH"]="../stanford-corenlp-4.5.9"
+os.environ["CLASSPATH"]="./stanford-corenlp-4.5.9"
 
 def do_call(pos, sentences):
     default_properties = {
